@@ -1,0 +1,33 @@
+{
+    "test_accuracy": 1.0,
+    "test_classwise_scores": {
+        "0": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "1": {
+            "precision": 1.0,
+            "recall": 1.0
+        }
+    },
+    "test_confusion_matrix": [
+        [
+            2,
+            0
+        ],
+        [
+            0,
+            3
+        ]
+    ],
+    "test_loss": 0.6216433644294739,
+    "test_macro_f1": 1.0,
+    "test_runtime": 0.081,
+    "test_samples_per_second": 61.712,
+    "test_steps_per_second": 12.342,
+    "test_wrong": {
+        "labels": [],
+        "preds": [],
+        "samples": []
+    }
+}

@@ -42,7 +42,8 @@ timezone = pytz.timezone("Asia/Shanghai")
 rootdir = "/share/home/liangzhongming/930/CGMformer/output/output_ablation"
 
 
-token_dict_path = '/share/home/liangzhongming/930/CGMformer/data/8_11_data/token2id.pkl'
+# token_dict_path = '/share/home/liangzhongming/930/CGMformer/data/8_11_data/token2id.pkl'
+token_dict_path = r'./cgm_ckp/token2id.pkl'
 
 # # old 288
 # train_datsset_path = "/share/home/liangzhongming/930/CGMformer/data/Shanghai_train"

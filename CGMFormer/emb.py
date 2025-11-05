@@ -26,7 +26,8 @@ from .utils import downsample_and_sort, \
                                  quant_layers
 
 # TOKEN_DICTIONARY_FILE = '/share/home/liangzhongming/930/CGMformer/data/8_8_data/288/Shanghai_total_token2id.pkl'
-TOKEN_DICTIONARY_FILE = "/share/home/liangzhongming/930/CGMformer/data/8_11_data/token2id.pkl"
+# TOKEN_DICTIONARY_FILE = "/share/home/liangzhongming/930/CGMformer/data/8_11_data/token2id.pkl"
+TOKEN_DICTIONARY_FILE = r'./cgm_ckp/token2id.pkl'
 # TOKEN_DICTIONARY_FILE = "/share/home/liangzhongming/930/CGMformer/data/8_2_newData/Shanghai_vocab_rank.pkl"
 with open(TOKEN_DICTIONARY_FILE, "rb") as f:
     token_dictionary = pickle.load(f)

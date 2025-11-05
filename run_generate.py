@@ -33,7 +33,7 @@ from transformers.training_args import TrainingArguments
 
 from CGMFormer import BertForSequenceClassification
 from CGMFormer import BertWithGeneration
-from CGMFormer import DataCollatorForCellClassification
+from CGMFormer import DataCollatorForSampleClassification
 from CGMFormer import ClasssifyTrainer
 
 debugpy.listen(("192.168.72.59", 5681))
@@ -48,7 +48,8 @@ torch.manual_seed(seed_val)
 torch.cuda.manual_seed_all(seed_val)
 
 
-TOKEN_DICTIONARY_FILE = '/share/home/liangzhongming/930/CGMformer/data/8_11_data/token2id.pkl'
+# TOKEN_DICTIONARY_FILE = '/share/home/liangzhongming/930/CGMformer/data/8_11_data/token2id.pkl'
+TOKEN_DICTIONARY_FILE = r'./cgm_ckp/token2id.pkl'
 with open(TOKEN_DICTIONARY_FILE, "rb") as f:
     token_dictionary = pickle.load(f)
 
@@ -244,7 +245,7 @@ def compute_metrics(pred):
 trainer = Trainer(
     model=model,
     args=training_args_init,
-    data_collator=DataCollatorForCellClassification(),
+    data_collator=DataCollatorForSampleClassification(),
     train_dataset=subtask_trainset,
     eval_dataset=subtask_testset,
     compute_metrics=compute_metrics

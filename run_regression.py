@@ -30,7 +30,7 @@ from transformers import Trainer
 from transformers.training_args import TrainingArguments
 
 from CGMFormer import BertForSequenceClassification, BertForRegression
-from CGMFormer import DataCollatorForCellClassification
+from CGMFormer import DataCollatorForSampleClassification
 from CGMFormer import DataCollatorForRegressiong
 from CGMFormer import ClasssifyTrainer
 
@@ -235,7 +235,7 @@ def compute_metrics(pred):
 trainer = Trainer(
     model=model,
     args=training_args_init,
-    data_collator=DataCollatorForCellClassification(),
+    data_collator=DataCollatorForSampleClassification(),
     train_dataset=subtask_trainset,
     eval_dataset=subtask_testset,
     compute_metrics=compute_metrics

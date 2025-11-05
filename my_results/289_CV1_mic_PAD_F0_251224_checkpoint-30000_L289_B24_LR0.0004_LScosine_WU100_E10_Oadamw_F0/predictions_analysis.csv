@@ -1,0 +1,6 @@
+Predicted_Class_ID,Max_Probability,Prob_Normal,Prob_Diabetes (T2D),True_Label_ID,Is_Correct,Predicted_Label,True_Label
+1,0.5378788,0.46212125,0.5378788,1,True,Diabetes (T2D),Diabetes (T2D)
+0,0.5255493,0.5255493,0.47445065,0,True,Normal,Normal
+1,0.5381195,0.4618805,0.5381195,1,True,Diabetes (T2D),Diabetes (T2D)
+1,0.54702336,0.45297664,0.54702336,1,True,Diabetes (T2D),Diabetes (T2D)
+0,0.53695285,0.53695285,0.46304712,0,True,Normal,Normal
