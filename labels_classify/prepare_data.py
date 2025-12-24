@@ -104,7 +104,7 @@ for index, row in df.iterrows():
 # 3. 创建并保存 Dataset
 dataset = Dataset.from_list(data_list)
 # 保存到文件夹
-OUTPUT_PATH = "../Data/my_processed_input"
+OUTPUT_PATH = "../labels_classify/my_processed_input"
 dataset.save_to_disk(OUTPUT_PATH)
 print(f"✅ 数据修复完成！已保存至 {OUTPUT_PATH}")
 print(f"   样本长度示例: {len(data_list[0]['input_ids'])} (应为 289)")
