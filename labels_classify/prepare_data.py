@@ -71,7 +71,7 @@ def process_glucose(value):
 
 
 # 2. 读取原始数据
-CSV_PATH = "my_cgm_data.csv"
+CSV_PATH = "my_cgm_data20.csv"
 if not os.path.exists(CSV_PATH):
     raise FileNotFoundError(f"找不到数据文件: {CSV_PATH}，请先运行 generate_mock_data.py")
 

@@ -35,12 +35,36 @@ from CGMFormer import ClasssifyTrainer
 # print("Waiting for debugger attach...")
 # debugpy.wait_for_client()
 
+# def parse_args():
+#     parser = argparse.ArgumentParser(description='Process some integers.')
+#     parser.add_argument('--checkpoint_path', type=str, help='Path to the checkpoint')
+#     parser.add_argument('--train_path', type=str, help='Path to the training dataset')
+#     parser.add_argument('--test_path', type=str, help='Path to the testing dataset')
+#     parser.add_argument('--output_path', type=str, help='Path to save output files')
+#     return parser.parse_args()
 def parse_args():
     parser = argparse.ArgumentParser(description='Process some integers.')
-    parser.add_argument('--checkpoint_path', type=str, help='Path to the checkpoint')
-    parser.add_argument('--train_path', type=str, help='Path to the training dataset')
-    parser.add_argument('--test_path', type=str, help='Path to the testing dataset')
-    parser.add_argument('--output_path', type=str, help='Path to save output files')
+
+    # 1. Checkpoint 路径 (假设 cgm_ckp 在项目根目录下)
+    parser.add_argument('--checkpoint_path', type=str,
+                        default=r'C:\Users\haoxiang.chen\PycharmProjects\CGMformer\cgm_ckp\checkpoint-30000',
+                        help='Path to the checkpoint')
+
+    # 2. 训练集路径 (指向你生成的 my_processed_input)
+    parser.add_argument('--train_path', type=str,
+                        default=r'C:\Users\haoxiang.chen\PycharmProjects\CGMformer\labels_classify\my_processed_input',
+                        help='Path to the training dataset')
+
+    # 3. 测试集路径 (这里为了跑通演示，暂时也指向同一个数据，实际使用可区分)
+    parser.add_argument('--test_path', type=str,
+                        default=r'C:\Users\haoxiang.chen\PycharmProjects\CGMformer\labels_classify\my_processed_input',
+                        help='Path to the testing dataset')
+
+    # 4. 结果输出路径 (指向 my_results 文件夹)
+    parser.add_argument('--output_path', type=str,
+                        default=r'C:\Users\haoxiang.chen\PycharmProjects\CGMformer\labels_classify\my_results',
+                        help='Path to save output files')
+
     return parser.parse_args()
 
 def main(args):
@@ -81,14 +105,14 @@ def main(args):
     def classes_to_ids(example):
         example["label"] = target_name_id_dict[example["label"]]
         return example
-    labeled_trainset = trainset.map(classes_to_ids, num_proc=16)
-    labeled_testset = testset.map(classes_to_ids, num_proc=16)
+    labeled_trainset = trainset.map(classes_to_ids, num_proc=4)
+    labeled_testset = testset.map(classes_to_ids, num_proc=4)
 
     # filter dataset for labels in corresponding training set
     trained_labels = list(Counter(labeled_trainset["label"]).keys())
     def if_trained_label(example):
         return example["label"] in trained_labels
-    labeled_testset = labeled_testset.filter(if_trained_label, num_proc=16)
+    labeled_testset = labeled_testset.filter(if_trained_label, num_proc=4)
 
     # set model parameters
     # max input size
@@ -141,7 +165,7 @@ def main(args):
     # number gpus
     num_gpus = 1
     # number cpu cores
-    num_proc = 16
+    num_proc = 4
     # batch size for training and 
     batch_size = 24
     # learning schedule
@@ -214,7 +238,7 @@ def main(args):
                 param.requires_grad = False
 
     # define output directory path
-    decs = "289_CV1_mic_PAD_F0"
+    decs = "TEST"
     current_date = datetime.datetime.now()
     datestamp = f"{str(current_date.year)[-2:]}{current_date.month:02d}{current_date.day:02d}"
 

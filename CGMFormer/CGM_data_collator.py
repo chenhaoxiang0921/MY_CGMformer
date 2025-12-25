@@ -10,8 +10,8 @@ from transformers import DataCollatorForLanguageModeling
 # TOKEN2ID_DICTIONARY_FILE = '/share/home/liangzhongming/930/CGMformer/data/8_11_data/token2id.pkl' # id2token 201: '<mask>'
 # ID2TOKEN_DICTIONARY_FILE = '/share/home/liangzhongming/930/CGMformer/data/8_11_data/id2token.pkl'
 # 使用相对路径，指向项目根目录下的 cgm_ckp 文件夹
-TOKEN2ID_DICTIONARY_FILE = r'./cgm_ckp/token2id.pkl'
-ID2TOKEN_DICTIONARY_FILE = r'./cgm_ckp/id2token.pkl'
+TOKEN2ID_DICTIONARY_FILE = r'C:\Users\haoxiang.chen\PycharmProjects\CGMformer\cgm_ckp\token2id.pkl'
+ID2TOKEN_DICTIONARY_FILE = r'C:\Users\haoxiang.chen\PycharmProjects\CGMformer\cgm_ckp\id2token.pkl'
 with open(TOKEN2ID_DICTIONARY_FILE, "rb") as f:
     token2id = pickle.load(f)
 with open(ID2TOKEN_DICTIONARY_FILE, "rb") as f:

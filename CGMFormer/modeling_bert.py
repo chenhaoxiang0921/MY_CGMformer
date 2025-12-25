@@ -103,8 +103,8 @@ _SEQ_CLASS_EXPECTED_LOSS = 0.01
 # TOKEN2ID_DICTIONARY_FILE = '/tmp/AMSS/CGMfoundation/data/token2id_age.pkl'
 # ID2TOKEN_DICTIONARY_FILE = '/tmp/AMSS/CGMfoundation/data/id2token_age.pkl'
 # 使用相对路径，指向项目根目录下的 cgm_ckp 文件夹
-TOKEN2ID_DICTIONARY_FILE = r'./cgm_ckp/token2id.pkl'
-ID2TOKEN_DICTIONARY_FILE = r'./cgm_ckp/id2token.pkl'
+TOKEN2ID_DICTIONARY_FILE = r'C:\Users\haoxiang.chen\PycharmProjects\CGMformer\cgm_ckp\token2id.pkl'
+ID2TOKEN_DICTIONARY_FILE = r'C:\Users\haoxiang.chen\PycharmProjects\CGMformer\cgm_ckp\id2token.pkl'
 # TOKEN2ID_DICTIONARY_FILE = '/tmp/AMSS/CGMfoundation/shanghai_data/token2id_mg.pkl'
 # ID2TOKEN_DICTIONARY_FILE = '/tmp/AMSS/CGMfoundation/shanghai_data/id2token_mg.pkl'
 

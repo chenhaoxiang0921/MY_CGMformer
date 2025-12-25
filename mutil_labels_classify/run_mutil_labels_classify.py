@@ -21,7 +21,9 @@ sns.set()
 from datasets import load_from_disk
 # from sklearn.metrics import classification_report
 # from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
-from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, confusion_matrix, classification_report, fbeta_score, label_ranking_average_precision_score, jaccard_score, precision_recall_fscore_support, hamming_loss
+from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, confusion_matrix, \
+    classification_report, fbeta_score, label_ranking_average_precision_score, jaccard_score, \
+    precision_recall_fscore_support, hamming_loss
 from torch.utils.tensorboard import SummaryWriter
 from transformers import Trainer
 from transformers.training_args import TrainingArguments
@@ -42,12 +44,11 @@ seed_val = 59
 torch.manual_seed(seed_val)
 torch.cuda.manual_seed_all(seed_val)
 
-
 # TOKEN_DICTIONARY_FILE = '/share/home/liangzhongming/930/CGMformer/data/8_11_data/downstream/CV_2/CV2_total_token2id.pkl'
 # TOKEN_DICTIONARY_FILE = '/share/home/liangzhongming/930/CGMformer/data/8_8_data/288/Shanghai_total_token2id.pkl'
 # TOKEN_DICTIONARY_FILE = "/share/home/liangzhongming/930/CGMformer/data/8_2_newData/Shanghai_vocab_rank.pkl"
 # TOKEN_DICTIONARY_FILE = '/share/home/liangzhongming/930/CGMformer/data/8_11_data/token2id.pkl'
-TOKEN_DICTIONARY_FILE = r'../cgm_ckp/token2id.pkl'
+TOKEN_DICTIONARY_FILE = r'C:\Users\haoxiang.chen\PycharmProjects\CGMformer\cgm_ckp\token2id.pkl'
 with open(TOKEN_DICTIONARY_FILE, "rb") as f:
     token_dictionary = pickle.load(f)
 
@@ -68,10 +69,10 @@ with open(TOKEN_DICTIONARY_FILE, "rb") as f:
 # checkpoint_path = "/share/home/liangzhongming/930/CGMformer/output_dir88/models/230810_131518_Fre3060_SZ10_L8_emb256_SL288_E3000_B48_LR2e-05_LSlinear_WU2000_Oadamw_DS2/checkpoint-33000" # tokenizer10 m3060
 
 # 288
-checkpoint_path = "../cgm_ckp/checkpoint-30000"
+checkpoint_path = r"C:\Users\haoxiang.chen\PycharmProjects\CGMformer\cgm_ckp\checkpoint-30000"
 
 # 96
-checkpoint_path = "../cgm_ckp/checkpoint-30000"
+# checkpoint_path = r"C:\Users\haoxiang.chen\PycharmProjects\CGMformer\cgm_ckp\checkpoint-30000"
 # checkpoint_path = "/share/home/liangzhongming/930/CGMformer/output/output_dir813/models/230820_013424_TFIDF4560_sincos_SZ1_L4_H8_emb128_SL97_E3000_B48_LR0.0004_LScosine_WU2000_Oadamw_DS2/checkpoint-30000" # 820
 
 # 9labels
@@ -83,10 +84,17 @@ classify3_best_checkpoint = "/share/home/liangzhongming/930/CGMformer/downStream
 classify3_wrong_checkpoint = "/share/home/liangzhongming/930/CGMformer/downStreamOutput/1028/mulit_3labels_F0_CV5_1109_231109_231029_020352_dim128_97_TFIDF_L4_H8_emb128_SL97_E3000_B48_LR0.0004_LSlinear_WU2000_Oadamw_DS2_mean_last1_L97_B24_LR2.5e-06_LScosine_WU200_E100_Oadamw_F0/checkpoint-260"
 
 # checkpoint_path = "/share/home/liangzhongming/930/CGMformer/output/output_dir813/models/230815_182104_TFIDF4560_SZ1_clsV2_L4_H8_emb128_SL97_E3000_B48_LR2e-05_LSlinear_WU2000_Oadamw_DS2/checkpoint-30000"
-train_path = "/share/home/liangzhongming/930/CGMformer/data/8_11_data/downstream/Zhao/CV_5/train"
-test_path = "/share/home/liangzhongming/930/CGMformer/data/8_11_data/downstream/Zhao/CV_5/test"
+
+# ================= 修改 1: 设置正确路径 =================
+# train_path = r'C:\Users\haoxiang.chen\PycharmProjects\CGMformer\labels_classify\my_multilabel_input'
+# test_path = r'C:\Users\haoxiang.chen\PycharmProjects\CGMformer\labels_classify\my_multilabel_input'
 # zhao_total_dataset = "/share/home/liangzhongming/930/CGMformer/data/Data_downstream/1017_Zhao_total"
-zhao_total_dataset = "./data/my_multilabel_input"
+# zhao_total_dataset = r"C:\Users\haoxiang.chen\PycharmProjects\CGMformer\mutil_labels_classify\my_multilabel_input"
+
+# 定义统一的数据集路径
+dataset_path = r"C:\Users\haoxiang.chen\PycharmProjects\CGMformer\mutil_labels_classify\my_multilabel_input"
+# =======================================================
+
 
 # train_path = "/share/home/liangzhongming/930/CGMformer/data/8_11_data/downstream/CV_2/downsampled_CV_2_train_96"
 # test_path = "/share/home/liangzhongming/930/CGMformer/data/8_11_data/downstream/CV_2/downsampled_CV_2_test_96"
@@ -114,17 +122,27 @@ zhao_total_dataset = "./data/my_multilabel_input"
 
 # output_path = '/share/home/liangzhongming/930/CGMformer/downStreamOutput/1028'
 # output_path = '/share/home/liangzhongming/930/CGMformer/output/output_zhao'
-output_path = './my_multilabel_results'
+output_path = r'C:\Users\haoxiang.chen\PycharmProjects\CGMformer\mutil_labels_classify\my_multilabel_results'
 
+# ================= 修改 2: 加载并划分数据 =================
 # load train dataset
 # trainset = load_from_disk(train_path)
 # # load evaluation dataset
 # testset = load_from_disk(test_path)
+full_dataset = load_from_disk(dataset_path)
+split = full_dataset.train_test_split(test_size=0.2, seed=seed_num)
+trainset = split['train']
+testset = split['test']
 
 # total_data for predict
-total_data = load_from_disk(zhao_total_dataset)
+# total_data = load_from_disk(zhao_total_dataset)
+total_data = full_dataset  # 使用完整数据集进行最终预测
+# =======================================================
+
 # 1. 定义标签列表 (根据第121行推断出来的)
 label_list = ['macrovascular ', 'microvascular', 'complication']
+
+
 # trainset = trainset.shuffle(seed_num)
 # testset = testset.shuffle(seed_num)
 
@@ -134,9 +152,16 @@ def format_labels(example):
     example['label'] = labels
     return example
 
-# labeled_trainset = trainset.map(format_labels)
-# labeled_testset = testset.map(format_labels)
-labeled_total = total_data.map(format_labels)
+
+# ================= 修改 3: 启用 Map 并强制单进程 =================
+# number cpu cores
+# num_proc = 2 # 16 or 2 -> 1
+num_proc = 1
+
+labeled_trainset = trainset.map(format_labels, num_proc=num_proc)
+labeled_testset = testset.map(format_labels, num_proc=num_proc)
+labeled_total = total_data.map(format_labels, num_proc=num_proc)
+# ===============================================================
 
 
 # set model parameters
@@ -145,14 +170,14 @@ max_input_size = 97
 
 # set training parameters
 # max learning rate
-max_lr = 2.5e-6 # 4e-6 # 5e-5
+max_lr = 2.5e-6  # 4e-6 # 5e-5
 # how many pretrained layers to freeze
-freeze_layers = 0 # 0
+freeze_layers = 0  # 0
 # number gpus
 num_gpus = 1
 # number cpu cores
-num_proc = 16
-# batch size for training and 
+# num_proc = 2 # 已在上面重新定义
+# batch size for training and
 batch_size = 24
 # learning schedule
 lr_schedule_fn = "cosine"
@@ -172,16 +197,20 @@ config = {
 
 config = PretrainedConfig(**config)
 
+# ================= 修改 4: 设备选择和 Checkpoint =================
+device = "cuda" if torch.cuda.is_available() else "cpu"
+print(f"正在使用设备: {device}")
+
 # reload pretrained model
 model = BertForSequenceClassification.from_pretrained(
-    # checkpoint_path,
-    classify3_wrong_checkpoint,
+    checkpoint_path,  # 使用前面定义的正确路径
+    # classify3_wrong_checkpoint,
     problem_type="multi_label_classification",
     num_labels=3,
     output_attentions=False,
-    output_hidden_states=False, # False->True
-# ).to("cuda")
-).to("cpu")
+    output_hidden_states=False,  # False->True
+    # ).to("cuda")
+).to(device)  # .to("cpu") -> .to(device)
 
 if freeze_layers is not None:
     modules_to_freeze = model.bert.encoder.layer[:freeze_layers]
@@ -193,7 +222,10 @@ if freeze_layers is not None:
 decs = "T12D"
 current_date = datetime.datetime.now()
 datestamp = f"{str(current_date.year)[-2:]}{current_date.month:02d}{current_date.day:02d}"
-output_dir = output_path + f"/{decs}_{datestamp}_{checkpoint_path.split('/')[-2]}_mean_last1_L{max_input_size}_B{batch_size}_LR{max_lr}_LS{lr_schedule_fn}_WU{warmup_steps}_E{epochs}_O{optimizer}_F{freeze_layers}/"
+# output_dir = output_path + f"/{decs}_{datestamp}_{checkpoint_path.split('/')[-2]}_mean_last1_L{max_input_size}_B{batch_size}_LR{max_lr}_LS{lr_schedule_fn}_WU{warmup_steps}_E{epochs}_O{optimizer}_F{freeze_layers}/"
+# 使用 os.path.basename 来处理路径，防止 Windows 路径切分问题
+ckpt_name = os.path.basename(checkpoint_path)
+output_dir = output_path + f"/{decs}_{datestamp}_{ckpt_name}_mean_last1_L{max_input_size}_B{batch_size}_LR{max_lr}_LS{lr_schedule_fn}_WU{warmup_steps}_E{epochs}_O{optimizer}_F{freeze_layers}/"
 
 # ensure not overwriting previously saved model
 saved_model_test = os.path.join(output_dir, f"pytorch_model.bin")
@@ -204,7 +236,8 @@ if os.path.isfile(saved_model_test) == True:
 subprocess.call(f'mkdir {output_dir}', shell=True)
 
 # logging_steps = round(len(labeled_trainset)/batch_size/10)
-logging_steps = round(len(labeled_total)/batch_size/10)
+logging_steps = round(len(labeled_total) / batch_size / 10)
+if logging_steps == 0: logging_steps = 1  # 防止除以0
 
 # set training arguments
 training_args = {
@@ -213,7 +246,7 @@ training_args = {
     "do_eval": True,
     # # "evaluation_strategy": "epoch",
     "evaluation_strategy": "steps",
-    "eval_steps": logging_steps, # 200
+    "eval_steps": logging_steps,  # 200
     # "save_strategy": "epoch",
     "save_strategy": "steps",
     "save_steps": logging_steps,
@@ -230,9 +263,11 @@ training_args = {
     "load_best_model_at_end": True,
     "output_dir": output_dir,
     "include_inputs_for_metrics": True,
+    "dataloader_num_workers": 0,  # 强制单进程数据加载，防止 Windows 报错
 }
 
 training_args_init = TrainingArguments(**training_args)
+
 
 def compute_metrics_V3(pred):
     labels = pred.label_ids
@@ -247,7 +282,7 @@ def compute_metrics_V3(pred):
     mutil_recall = recall_score(labels, binary_preds, average='micro')
     mutil_f1 = f1_score(labels, binary_preds, average='micro')
     mutil_hamming = hamming_loss(labels, binary_preds)
-    
+
     num_labels = labels.shape[1]
     accuracy_list = []
     precision_list = []
@@ -276,13 +311,14 @@ def compute_metrics_V3(pred):
         'all_recall': mutil_recall,
         'all_f1': mutil_f1,
         'all_hamming_loss': mutil_hamming,
-        
+
         'accuracy': accuracy_list,
         'precision': precision_list,
         'recall': recall_list,
         'f1': f1_list,
         'hamming_loss': hamming_list
     }
+
 
 def compute_metricsV2(pred):
     labels = pred.label_ids
@@ -292,27 +328,24 @@ def compute_metricsV2(pred):
     probs = 1 / (1 + np.exp(-preds_array))
     preds = (probs > 0.5).astype(int)
     input = pred.inputs
-    
+
     # Compute metrics for multi-label classification
     acc = accuracy_score(labels, preds)
-    
+
     precision, recall, f1, _ = precision_recall_fscore_support(labels, preds)
     metrics = {}
     for i, label in enumerate(label_list):
-        metrics[f'{label}_precision'] = precision[i]  
+        metrics[f'{label}_precision'] = precision[i]
         metrics[f'{label}_recall'] = recall[i]
         metrics[f'{label}_f1'] = f1[i]
-    
-    
+
     acc1 = accuracy_score(labels, preds, normalize=False)
     weighted_acc = accuracy_score(labels, preds, sample_weight=labels.sum(axis=1))
     acc2 = np.sum(np.all(labels == preds, axis=1)) / labels.shape[0]
     # f1_acc = fbeta_score(labels, preds, beta=1, average='samples')
     lrap = label_ranking_average_precision_score(labels, preds)
-    jaccard = jaccard_score(labels, preds, average="samples") 
-    
-    
-    
+    jaccard = jaccard_score(labels, preds, average="samples")
+
     macro_f1 = f1_score(labels, preds, average='macro')
     macro_precision = precision_score(labels, preds, average='macro')
     macro_recall = recall_score(labels, preds, average='macro')
@@ -342,6 +375,7 @@ def compute_metricsV2(pred):
         # 'classwise_scores': classwise_scores,
     }
 
+
 def compute_metrics(pred):
     labels = pred.label_ids
     # preds = pred.predictions.argmax(-1)
@@ -350,33 +384,33 @@ def compute_metrics(pred):
     probs = 1 / (1 + np.exp(-preds_array))
     preds = (probs > 0.5).astype(int)
     input = pred.inputs
-    
+
     #
-    multi_precision = [] 
+    multi_precision = []
     multi_recall = []
     multi_f1 = []
 
     single_precision = []
-    single_recall = []  
+    single_recall = []
     single_f1 = []
 
     n_labels = 9
     for i in range(n_labels):
-        y_true = labels[:, i] # ground truth for one label
-        y_pred = preds[:, i] # predictions for one label
-        
+        y_true = labels[:, i]  # ground truth for one label
+        y_pred = preds[:, i]  # predictions for one label
+
         precision = precision_score(y_true, y_pred)
         recall = recall_score(y_true, y_pred)
         f1 = f1_score(y_true, y_pred)
-    
+
         single_precision.append(precision)
-        single_recall.append(recall) 
+        single_recall.append(recall)
         single_f1.append(f1)
-    
-    y_true_multi = labels 
+
+    y_true_multi = labels
     y_pred_multi = preds
 
-    precision = precision_score(y_true_multi, y_pred_multi, average='micro')  
+    precision = precision_score(y_true_multi, y_pred_multi, average='micro')
     recall = recall_score(y_true_multi, y_pred_multi, average='micro')
     f1 = f1_score(y_true_multi, y_pred_multi, average='micro')
 
@@ -394,6 +428,7 @@ def compute_metrics(pred):
 
     }
 
+
 # create the trainer
 # trainer = Trainer(
 #     model=model,
@@ -409,10 +444,14 @@ trainer = ClasssifyTrainer(
     data_collator=DataCollatorForSampleClassification(),
     # train_dataset=subtask_trainset,
     # eval_dataset=subtask_testset,
+    # ================= 修改 5: 传入训练/测试集 =================
+    train_dataset=labeled_trainset,
+    eval_dataset=labeled_testset,
+    # =======================================================
     compute_metrics=compute_metrics_V3
 )
 # train the label classifier
-# trainer.train()
+trainer.train()
 
 # test
 print(f"start predict!!!")

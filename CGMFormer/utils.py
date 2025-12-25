@@ -46,8 +46,8 @@ logger = logging.getLogger(__name__)
 # TOKEN_DICTIONARY_FILE = '/tmp/AMSS/CGMfoundation/data/token2id.pkl'
 # ID2TOKEN_DICTIONARY_FILE = '/tmp/AMSS/CGMfoundation/data/id2token.pkl'
 # 使用相对路径，指向项目根目录下的 cgm_ckp 文件夹
-TOKEN_DICTIONARY_FILE = r'./cgm_ckp/token2id.pkl'
-ID2TOKEN_DICTIONARY_FILE = r'./cgm_ckp/id2token.pkl'
+TOKEN_DICTIONARY_FILE = r'C:\Users\haoxiang.chen\PycharmProjects\CGMformer\cgm_ckp\token2id.pkl'
+ID2TOKEN_DICTIONARY_FILE = r'C:\Users\haoxiang.chen\PycharmProjects\CGMformer\cgm_ckp\id2token.pkl'
 
 # TOKEN_DICTIONARY_FILE = '/tmp/AMSS/CGMfoundation/shanghai_data/token2id.pkl'
 # ID2TOKEN_DICTIONARY_FILE = '/tmp/AMSS/CGMfoundation/shanghai_data/id2token.pkl'

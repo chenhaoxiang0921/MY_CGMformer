@@ -1,0 +1,21 @@
+Predicted_Class_ID,Max_Probability,Prob_Normal,Prob_Diabetes (T2D),True_Label_ID,Is_Correct,Predicted_Label,True_Label
+0,0.5368774,0.5368774,0.46312264,0,True,Normal,Normal
+1,0.5268578,0.47314224,0.5268578,1,True,Diabetes (T2D),Diabetes (T2D)
+0,0.532679,0.532679,0.46732095,0,True,Normal,Normal
+1,0.5260949,0.473905,0.5260949,1,True,Diabetes (T2D),Diabetes (T2D)
+1,0.52812696,0.47187302,0.52812696,1,True,Diabetes (T2D),Diabetes (T2D)
+1,0.52185905,0.4781409,0.52185905,1,True,Diabetes (T2D),Diabetes (T2D)
+1,0.5313038,0.46869615,0.5313038,1,True,Diabetes (T2D),Diabetes (T2D)
+0,0.5416671,0.5416671,0.45833287,0,True,Normal,Normal
+0,0.54176533,0.54176533,0.45823464,0,True,Normal,Normal
+0,0.5388193,0.5388193,0.4611807,0,True,Normal,Normal
+0,0.5432411,0.5432411,0.4567589,0,True,Normal,Normal
+0,0.53168637,0.53168637,0.46831363,0,True,Normal,Normal
+1,0.53158617,0.46841392,0.53158617,1,True,Diabetes (T2D),Diabetes (T2D)
+1,0.52113557,0.4788644,0.52113557,1,True,Diabetes (T2D),Diabetes (T2D)
+0,0.54021275,0.54021275,0.45978722,0,True,Normal,Normal
+0,0.5329835,0.5329835,0.4670165,0,True,Normal,Normal
+0,0.53908235,0.53908235,0.4609176,0,True,Normal,Normal
+1,0.5371749,0.46282515,0.5371749,1,True,Diabetes (T2D),Diabetes (T2D)
+1,0.5258184,0.47418156,0.5258184,1,True,Diabetes (T2D),Diabetes (T2D)
+1,0.5258287,0.47417122,0.5258287,1,True,Diabetes (T2D),Diabetes (T2D)

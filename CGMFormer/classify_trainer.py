@@ -188,8 +188,8 @@ if version.parse(torch.__version__) >= version.parse("1.6"):
 # TOKEN2ID_DICTIONARY_FILE = '/share/home/liangzhongming/930/CGMformer/data/8_11_data/token2id.pkl' # id2token 201: '<mask>'
 # ID2TOKEN_DICTIONARY_FILE = '/share/home/liangzhongming/930/CGMformer/data/8_11_data/id2token.pkl'
 # 使用相对路径，指向项目根目录下的 cgm_ckp 文件夹
-TOKEN2ID_DICTIONARY_FILE = r'./cgm_ckp/token2id.pkl'
-ID2TOKEN_DICTIONARY_FILE = r'./cgm_ckp/id2token.pkl'
+TOKEN2ID_DICTIONARY_FILE = r'C:\Users\haoxiang.chen\PycharmProjects\CGMformer\cgm_ckp\token2id.pkl'
+ID2TOKEN_DICTIONARY_FILE = r'C:\Users\haoxiang.chen\PycharmProjects\CGMformer\cgm_ckp\id2token.pkl'
 with open(TOKEN2ID_DICTIONARY_FILE, "rb") as f:
     token2id = pickle.load(f)
 with open(ID2TOKEN_DICTIONARY_FILE, "rb") as f:
@@ -264,9 +264,8 @@ class ClasssifyTrainer(Trainer):
         if self.args.n_gpu > 1:
             loss = loss.mean()  # mean() to average on multi-gpu parallel training
 
-    
-
-        if self.do_grad_scaling:
+        # 修改后使用 getattr 安全获取，如果不存在默认为 False：
+        if getattr(self, "do_grad_scaling", False):
             self.scaler.scale(loss).backward()
         elif self.use_apex:
             with amp.scale_loss(loss, self.optimizer) as scaled_loss:
@@ -846,7 +845,8 @@ class ClasssifyTrainer(Trainer):
         label_ids = output.label_ids
         
         dataset_df = pd.DataFrame(test_dataset)
-        dataset_df['Original_Label'] = label_ids
+        # 修改: 加上 list()，将二维矩阵转换为对象列表，防止多标签任务报错
+        dataset_df['Original_Label'] = list(label_ids)
         dataset_df['Predicted_Label'] = predictions
         
         
