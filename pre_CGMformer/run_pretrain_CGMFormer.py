@@ -39,40 +39,14 @@ torch.cuda.manual_seed_all(seed_val)
 
 # set local time/directories
 timezone = pytz.timezone("Asia/Shanghai")
-rootdir = "/share/home/liangzhongming/930/CGMformer/output/output_ablation"
+rootdir = "./pre_CGMformer"
 
+token_dict_path = r'../cgm_ckp/token2id.pkl'
 
-# token_dict_path = '/share/home/liangzhongming/930/CGMformer/data/8_11_data/token2id.pkl'
-token_dict_path = r'./cgm_ckp/token2id.pkl'
+train_datsset_path = r"C:\Users\haoxiang.chen\PycharmProjects\CGMformer\pre_CGMformer\my_pretrain_dataset_mongodb"
+valid_datsset_path = r"C:\Users\haoxiang.chen\PycharmProjects\CGMformer\pre_CGMformer\my_pretrain_dataset_mongodb"
 
-# # old 288
-# train_datsset_path = "/share/home/liangzhongming/930/CGMformer/data/Shanghai_train"
-# valid_datsset_path = "/share/home/liangzhongming/930/CGMformer/data/Shanghai_valid"
-
-# # old 288 96
-# train_datsset_path = "/share/home/liangzhongming/930/CGMformer/data/Shanghai_train_subSampleV3"
-# valid_datsset_path = "/share/home/liangzhongming/930/CGMformer/data/Shanghai_valid_subSampleV3"
-
-# 8_11 downsampling 96
-train_datsset_path = "/share/home/liangzhongming/930/CGMformer/data/8_11_data/downsampled_Shanghai_total_96"
-valid_datsset_path = "/share/home/liangzhongming/930/CGMformer/data/8_11_data/downstream/96/downsampled_CV_2_train_96"
-
-# # 8_11 288
-# train_datsset_path = "/share/home/liangzhongming/930/CGMformer/data/8_11_data/Shanghai_total"
-# valid_datsset_path = "/share/home/liangzhongming/930/CGMformer/data/8_11_data/downstream/288/CV_2/train"
-
-# 144
-train_datsset_path = "/share/home/liangzhongming/930/CGMformer/data/8_7_data/Shanghai_downsampled_144"
-# downsampling
-# train_datsset_path = "/share/home/liangzhongming/930/CGMformer/data/8_11_data/Shanghai_1650"
-# train_datsset_path = "/share/home/liangzhongming/930/CGMformer/data/8_11_data/Shanghai_1150"
-# train_datsset_path = "/share/home/liangzhongming/930/CGMformer/data/8_11_data/Shanghai_750"
-# train_datsset_path = "/share/home/liangzhongming/930/CGMformer/data/8_11_data/Shanghai_450"
-# train_datsset_path = "/share/home/liangzhongming/930/CGMformer/data/8_11_data/Shanghai_250"
-
-
-# Default Test
-# train_datsset_path = "/share/home/liangzhongming/930/CGMformer/data/Data_downstream/CITY_originData"
+# train_datsset_path = "./processed_data_480_hf"
 
 
 # use_cls_token = True
@@ -81,7 +55,7 @@ train_datsset_path = "/share/home/liangzhongming/930/CGMformer/data/8_7_data/Sha
 # model type
 model_type = "bert"
 # max input size
-max_input_size = 97 # <cls> + 96/ <cls> + 288
+max_input_size = 512 # <cls> + 96/ <cls> + 288
 # number of layers
 num_layers = 4
 # number of attention heads
@@ -102,7 +76,7 @@ hidden_dropout_prob = 0.02 # Bert default 0.1 # 0.02->0.1
 # number gpus
 num_gpus = 2
 # batch size for training and eval
-batch_size = 48 
+batch_size = 2 #48
 # max learning rate
 max_lr = 4e-4 # 8e-6(2000epoch) 4e-6 best
 # learning schedule
@@ -110,14 +84,14 @@ lr_schedule_fn = "linear" # linear->cossin
 # warmup steps
 warmup_steps = 2000 # 2000->200 for 100sample
 # number of epochs
-epochs = 3000 
+epochs = 1 #3000
 # optimizer
 optimizer = "adamw"
 # weight_decay
 weight_decay = 0.001 # 0.001->0.01
 
 # output directories
-decs = "mask_97_bs48_TFIDF4560"
+decs = "mask_480_bs48_TFIDF4560"
 current_date = datetime.datetime.now(tz=timezone)
 datestamp = f"{str(current_date.year)[-2:]}{current_date.month:02d}{current_date.day:02d}_{current_date.strftime('%X').replace(':','')}"
 run_name = f"{datestamp}_{decs}_L{num_layers}_H{num_attn_heads}_emb{num_embed_dim}_SL{max_input_size}_E{epochs}_B{batch_size}_LR{max_lr}_LS{lr_schedule_fn}_WU{warmup_steps}_O{optimizer}_DS{num_gpus}"
@@ -171,6 +145,10 @@ training_args = {
     "warmup_steps": warmup_steps,
     "weight_decay": weight_decay,
     "per_device_train_batch_size": batch_size,
+
+    # === 新增：禁用多进程 ===
+    "dataloader_num_workers": 0,
+
     "num_train_epochs": epochs,
     "save_strategy": "steps",
     "evaluation_strategy": 'steps',

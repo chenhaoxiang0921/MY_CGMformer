@@ -899,7 +899,7 @@ class CGMFormerPretrainer(Trainer):
         # }
         self.log(logs_to_record)
 
-        if self.do_grad_scaling:
+        if getattr(self, "do_grad_scaling", False):
             self.scaler.scale(loss).backward()
         elif self.use_apex:
             with amp.scale_loss(loss, self.optimizer) as scaled_loss:

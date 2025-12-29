@@ -68,7 +68,7 @@ save_dir = r"C:\Users\haoxiang.chen\PycharmProjects\CGMformer\labels_classify"
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
 
-save_path = os.path.join(save_dir, "my_cgm_data20.csv")
+save_path = os.path.join(save_dir, "my_cgm_data.csv")
 df.to_csv(save_path, index=False)
 # ===========================================
 
